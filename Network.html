@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Traffic Analysis Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
+    <link rel="stylesheet" href="NetworkStyles.css">
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-title">
+            <i class="fas fa-network-wired"></i>
+            <span>Network Traffic Analysis Dashboard</span>
+        </div>
+        <div class="header-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">AD</div>
+                <span class="user-name">Admin</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span class="logo-text">NetGuard</span>
+        </div>
+        <div class="nav-links">
+            <div class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span class="nav-text">Dashboard</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-laptop"></i>
+                <span class="nav-text">Devices</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-traffic-light"></i>
+                <span class="nav-text">Traffic Analyzer</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-file-alt"></i>
+                <span class="nav-text">Log Analysis</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span class="nav-text">Settings</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-question-circle"></i>
+                <span class="nav-text">Help & Support</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1 class="page-title">
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard Overview
+        </h1>
+
+        <!-- Summary Cards -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Connected Devices</div>
+                    <div class="card-icon" style="background: rgba(0, 176, 255, 0.2); color: var(--secondary);">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                </div>
+                <div class="card-content">42</div>
+                <div class="card-footer">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>12% increase</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Packets Analyzed</div>
+                    <div class="card-icon" style="background: rgba(76, 175, 80, 0.2); color: var(--success);">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+                <div class="card-content">1.2M</div>
+                <div class="card-footer">
+                    <i class="fas fa-sync"></i>
+                    <span>Real-time monitoring</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Detected Attacks</div>
+                    <div class="card-icon" style="background: rgba(244, 67, 54, 0.2); color: var(--danger);">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                </div>
+                <div class="card-content">128</div>
+                <div class="card-footer">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Last 24 hours</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Active Alerts</div>
+                    <div class="card-icon" style="background: rgba(255, 152, 0, 0.2); color: var(--warning);">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                </div>
+                <div class="card-content">7</div>
+                <div class="card-footer">
+                    <i class="fas fa-eye"></i>
+                    <span>Require attention</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Traffic Chart -->
+        <div class="grid-2">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Network Traffic</span>
+                    </div>
+                    <div class="section-actions">
+                        <button class="btn">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-bug"></i>
+                        <span>Attack Types</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="attackChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connected Devices -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-laptop"></i>
+                    <span>Connected Devices</span>
+                </div>
+                <div class="section-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search devices...">
+                    </div>
+                    <button class="btn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Device Name</th>
+                            <th>IP Address</th>
+                            <th>MAC Address</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Admin-PC</td>
+                            <td>192.168.1.10</td>
+                            <td>00:1A:C2:7B:00:47</td>
+                            <td class="device-type">
+                                <i class="fas fa-desktop"></i> Desktop
+                            </td>
+                            <td>
+                                <span class="status-badge status-active">Active</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marketing-Laptop</td>
+                            <td>192.168.1.15</td>
+                            <td>00:1B:44:11:3A:B7</td>
+                            <td class="device-type">
+                                <i class="fas fa-laptop"></i> Laptop
+                            </td>
+                            <td>
+                                <span class="status-badge status-active">Active</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Server-01</td>
+                            <td>192.168.1.100</td>
+                            <td>00:0C:29:2B:89:91</td>
+                            <td class="device-type">
+                                <i class="fas fa-server"></i> Server
+                            </td>
+                            <td>
+                                <span class="status-badge status-warning">Warning</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Security-Camera</td>
+                            <td>192.168.1.50</td>
+                            <td>00:1E:42:30:07:95</td>
+                            <td class="device-type">
+                                <i class="fas fa-video"></i> IoT
+                            </td>
+                            <td>
+                                <span class="status-badge status-inactive">Inactive</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Reception-Printer</td>
+                            <td>192.168.1.25</td>
+                            <td>00:19:B9:1E:FA:3C</td>
+                            <td class="device-type">
+                                <i class="fas fa-print"></i> Printer
+                            </td>
+                            <td>
+                                <span class="status-badge status-active">Active</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Traffic Analyzer -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-traffic-light"></i>
+                    <span>Traffic Analyzer</span>
+                </div>
+                <div class="section-actions">
+                    <button class="btn btn-success">
+                        <i class="fas fa-play"></i> Start Capture
+                    </button>
+                    <button class="btn btn-danger">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                </div>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <div class="filter-label">Protocol</div>
+                    <select>
+                        <option>All Protocols</option>
+                        <option>TCP</option>
+                        <option>UDP</option>
+                        <option>ICMP</option>
+                        <option>HTTP</option>
+                        <option>HTTPS</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-label">Status</div>
+                    <select>
+                        <option>All Status</option>
+                        <option>Normal</option>
+                        <option>Suspicious</option>
+                        <option>Attack</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-label">Source IP</div>
+                    <input type="text" class="filter-input" placeholder="Filter by source...">
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-label">Destination IP</div>
+                    <input type="text" class="filter-input" placeholder="Filter by destination...">
+                </div>
+            </div>
+            
+            <div class="traffic-view-toggle">
+                <div class="view-option active">Table View</div>
+                <div class="view-option">Card View</div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Protocol</th>
+                            <th>Length</th>
+                            <th>Status</th>
+                            <th>Attack Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12:05:23.456</td>
+                            <td>192.168.1.15:52431</td>
+                            <td>104.18.34.156:443</td>
+                            <td>TCP</td>
+                            <td>1420 bytes</td>
+                            <td>Normal</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>12:05:24.112</td>
+                            <td>192.168.1.10:35421</td>
+                            <td>192.168.1.100:22</td>
+                            <td>TCP</td>
+                            <td>78 bytes</td>
+                            <td>Suspicious</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>12:05:25.789</td>
+                            <td>45.33.120.108:80</td>
+                            <td>192.168.1.15:52310</td>
+                            <td>HTTP</td>
+                            <td>1854 bytes</td>
+                            <td>Normal</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>12:05:26.332</td>
+                            <td>192.168.1.50:1234</td>
+                            <td>203.0.113.5:53</td>
+                            <td>UDP</td>
+                            <td>92 bytes</td>
+                            <td>Attack</td>
+                            <td><span class="attack-badge">DNS Amplification</span></td>
+                        </tr>
+                        <tr>
+                            <td>12:05:27.901</td>
+                            <td>192.168.1.100:443</td>
+                            <td>192.168.1.15:52432</td>
+                            <td>TCP</td>
+                            <td>1200 bytes</td>
+                            <td>Normal</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>12:05:28.445</td>
+                            <td>192.168.1.25:9100</td>
+                            <td>192.168.1.10:42133</td>
+                            <td>TCP</td>
+                            <td>512 bytes</td>
+                            <td>Suspicious</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<script src="NetworkScript.js"></script>
+</body>
+</html>
